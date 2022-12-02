@@ -1,0 +1,85 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 24px;
+
+  border: 1px solid rgba(150, 151, 152, 0.2);
+  box-shadow: 0px 10px 60px rgba(0, 0, 0, 0.06);
+  border-radius: 24px;
+
+  .buttons {
+    margin: auto;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    padding: 8px;
+    width: 300px;
+    background: #f8f8f8;
+    border-radius: 50px;
+
+    .button {
+      color: #06240a;
+      font-size: 14px;
+      font-weight: 500;
+      background: none;
+      width: 50%;
+    }
+
+    .selected {
+      background: #ffffff;
+      box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.14);
+    }
+  }
+
+  .value {
+    font-style: normal;
+    font-weight: 375;
+    font-size: 96px;
+  }
+
+  .sendText {
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    color: #969798;
+  }
+
+  .sendValue {
+    font-style: normal;
+    font-weight: 375;
+    font-size: 24px;
+    color: #06240a;
+  }
+
+  .balance {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 8px 8px 12px;
+    border: 1px solid rgba(150, 151, 152, 0.2);
+    border-radius: 76px;
+    width: fit-content;
+    gap: 10px;
+    margin: auto;
+
+    .maxButton {
+      color: #b88454;
+      font-size: 12px;
+      background: rgba(184, 132, 84, 0.1);
+      border-radius: 25px;
+      padding: 0px 12px;
+      max-width: none;
+    }
+  }
+
+  .currentBalance {
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    color: #111111;
+    flex: none;
+  }
+}

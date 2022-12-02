@@ -1,0 +1,27 @@
+.root {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 24px;
+  background: #ffffff;
+  border: 1px solid rgba(150, 151, 152, 0.2);
+  border-radius: 50px;
+
+  .connectButton {
+    color: #ffffff;
+    padding: 16px;
+    background: #b96bfc;
+    border-radius: 40px;
+  }
+
+  .home {
+    margin-right: 30px;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    color: #111111;
+    text-decoration: none;
+  }
+}
