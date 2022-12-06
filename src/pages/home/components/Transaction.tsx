@@ -1,6 +1,21 @@
-import { FC, useCallback, useEffect, useMemo, useState } from "react";
+import {
+  FC,
+  ReactElement,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import { clsx } from "clsx";
-import { Alert, Box, Button, Input, Snackbar, Typography } from "@mui/material";
+import {
+  Alert,
+  AlertColor,
+  Box,
+  Button,
+  Input,
+  Snackbar,
+  Typography,
+} from "@mui/material";
 import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import Table from "./Table";
 import useSolanaUsd from "../../../hooks/useSolanaUsd";
@@ -15,6 +30,11 @@ const Transaction: FC = () => {
   const [transactionBalance, setTransactionBalance] = useState<string>("0");
   const [balance, setBalance] = useState<number>();
   const [openSnackBar, setOpenSnackBar] = useState<boolean>(false);
+  const [snackBarSeverity, setSnackBarSeverity] =
+    useState<AlertColor>("success");
+  const [snackbarMessage, setSnackbarMessage] = useState<string | ReactElement>(
+    ""
+  );
 
   const { connection } = useConnection();
   const { publicKey } = useWallet();
@@ -83,8 +103,26 @@ const Transaction: FC = () => {
   }, [transactionBalance]);
 
   const sendTransaction = async () => {
-    await send(parseFloat(transactionBalance));
-    setOpenSnackBar(true);
+    try {
+      const { signature, confirmation } = await send(
+        parseFloat(transactionBalance)
+      );
+      if (confirmation.value.err) {
+        setSnackBarSeverity("error");
+        setSnackbarMessage(confirmation.value.err as string);
+      } else {
+        setSnackBarSeverity("success");
+        setSnackbarMessage(
+          <a href={`https://solscan.io/tx/${signature}`} target="_top">
+            View Transaction
+          </a>
+        );
+        setOpenSnackBar(true);
+      }
+    } catch (e) {
+      setSnackBarSeverity("error");
+      setSnackbarMessage((e as any).toString());
+    }
     getBalance();
     setTransactionBalance("0");
   };
@@ -188,8 +226,12 @@ const Transaction: FC = () => {
         autoHideDuration={6000}
         onClose={handleClose}
       >
-        <Alert onClose={handleClose} severity="success" sx={{ width: "100%" }}>
-          Transaction complete
+        <Alert
+          onClose={handleClose}
+          severity={snackBarSeverity}
+          sx={{ width: "100%" }}
+        >
+          {snackbarMessage}
         </Alert>
       </Snackbar>
     </Box>

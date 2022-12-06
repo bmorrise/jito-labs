@@ -44,11 +44,16 @@ const useSendTransaction = () => {
         minContextSlot,
       });
 
-      return await connection.confirmTransaction({
+      const confirmation = await connection.confirmTransaction({
         blockhash,
         lastValidBlockHeight,
         signature,
       });
+
+      return {
+        signature,
+        confirmation,
+      };
     },
     [publicKey, sendTransaction, connection]
   );

@@ -1,0 +1,45 @@
+name: examples
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  deploy:
+    permissions:
+      contents: read
+      id-token: write
+
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Node.js 16
+        uses: actions/setup-node@v1
+        with:
+          node-version: 16
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build
+        run: npm run build
+
+      - uses: google-github-actions/auth@v1
+        with:
+          project_id: jito-labs-370401
+          credentials_json: ${{secrets.GCP_AUTH_KEY}}
+
+      - id: deploy
+        name: deploy
+        uses: google-github-actions/deploy-appengine@v0
+        with:
+          deliverables: app.yaml
+          project_id: ${{ secrets.GCP_PROJECT }}
+
+      - name: show output
+        run: echo ${{ steps.deploy.outputs.url }}
